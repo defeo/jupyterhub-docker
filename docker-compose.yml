@@ -6,6 +6,7 @@ services:
     container_name: jupyterhub
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - jupyterhub_data:/srv/jupyterhub
     environment:
       DOCKER_JUPYTER_CONTAINER: root_jupyterlab
       DOCKER_NETWORK_NAME: root_default
@@ -30,3 +31,6 @@ services:
       - /etc/certs:/etc/certs
       - /var/run/docker.sock:/var/run/docker.sock
     restart: on-failure
+
+volumes:
+  jupyterhub_data:
