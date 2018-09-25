@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:137a295ff71b
+FROM jupyter/scipy-notebook:137a295ff71b
 
 LABEL maintainer="Luca De Feo <https://defeo.lu/>"
 
@@ -11,6 +11,7 @@ RUN apt-get update && \
     tzdata \
     gfortran \
     gcc \
+    scilab \
     libgmp-dev \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -40,8 +41,17 @@ RUN conda install --quiet --yes \
     'r-htmlwidgets=1.0*' \
     'r-hexbin=1.27*' \
     'jupyterhub' \
-    'sage=8.*' && \
+    'sage=8.*' \
+    'julia=1.0*' && \
     conda clean -tipsy && \
+    fix-permissions $CONDA_DIR
+
+ENV CPATH=$CONDA_DIR/include
+
+RUN pip install \
+    pari_jupyter \
+#    PySingular jupyter_kernel_singular \
+    scilab-kernel && \
     fix-permissions $CONDA_DIR
 
 # Add conda env hook
