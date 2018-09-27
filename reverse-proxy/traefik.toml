@@ -1,4 +1,4 @@
-debug = false
+debug = true
 
 logLevel = "ERROR"
 defaultEntryPoints = ["https","http"]
@@ -17,6 +17,8 @@ defaultEntryPoints = ["https","http"]
 
 [docker]
 domain = "docker.local"
-#watch = true
+watch = true
 
 [api]
+  [api.statistics]
+    recentErrors = 10

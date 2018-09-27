@@ -3,22 +3,27 @@ version: '3'
 services:
   jupyterhub:
     build: jupyterhub
+    image: jupyterhub_img
     container_name: jupyterhub
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - jupyterhub_data:/srv/jupyterhub
     environment:
-      DOCKER_JUPYTER_CONTAINER: root_jupyterlab
-      DOCKER_NETWORK_NAME: root_default
+      DOCKER_JUPYTER_CONTAINER: jupyterlab_img
+      DOCKER_NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
       HUB_IP: jupyterhub
     labels:
       - "traefik.enable=true"
-      - "traefik.hub.frontend.rule=Host:jupyter.ens.uvsq.fr"
+      - "traefik.frontend.rule=Host:jupyter.ens.uvsq.fr"
     restart: on-failure
+
   jupyterlab:
     build: jupyterlab
+    image: jupyterlab_img
     container_name: jupyterlab-throaway
+    network_mode: none
     command: echo
+
   reverse-proxy:
     image: traefik
     container_name: reverse-proxy
@@ -30,6 +35,16 @@ services:
       - ./reverse-proxy/traefik.toml:/etc/traefik/traefik.toml
       - /etc/certs:/etc/certs
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: on-failure
+
+  oauth2_server:
+    image: defeo/cas2oauth2bridge
+    container_name: c2o2b
+    volumes:
+      - ./oauth2/config.js:/home/node/config.js
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:jupyter.ens.uvsq.fr;PathPrefixStrip:/c2o2b/"
     restart: on-failure
 
 volumes:

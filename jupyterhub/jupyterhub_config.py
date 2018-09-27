@@ -8,8 +8,8 @@ from oauthenticator.generic import GenericOAuthenticator
 from tornado.auth import OAuth2Mixin
 
 class UVSQMixin(OAuth2Mixin):
-    _OAUTH_AUTHORIZE_URL = 'https://keats.prism.uvsq.fr/oauth2/login'
-    _OAUTH_ACCESS_TOKEN_URL = 'https://keats.prism.uvsq.fr/oauth2/token'
+    _OAUTH_AUTHORIZE_URL = 'https://jupyter.ens.uvsq.fr/c2o2b/login'
+    _OAUTH_ACCESS_TOKEN_URL = 'https://jupyter.ens.uvsq.fr/c2o2b/token'
 
 class UVSQLoginHandler(OAuthLoginHandler, UVSQMixin):
     pass
@@ -17,10 +17,10 @@ class UVSQLoginHandler(OAuthLoginHandler, UVSQMixin):
 class UVSQAuthenticator(GenericOAuthenticator):
     login_service = 'UVSQ'
     login_handler = UVSQLoginHandler
-    client_id = '1'
+    client_id = '0'
     client_secret = ''
-    userdata_url = 'https://keats.prism.uvsq.fr/oauth2/userdata'
-    token_url = 'https://keats.prism.uvsq.fr/oauth2/token'
+    userdata_url = 'https://jupyter.ens.uvsq.fr/c2o2b/userdata'
+    token_url = 'https://jupyter.ens.uvsq.fr/c2o2b/token'
     oauth_callback_url = 'https://jupyter.ens.uvsq.fr/hub/oauth_callback'
 
 c.JupyterHub.authenticator_class = UVSQAuthenticator
