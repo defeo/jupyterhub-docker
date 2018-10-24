@@ -10,11 +10,16 @@ services:
       - jupyterhub_data:/srv/jupyterhub
     environment:
       DOCKER_JUPYTER_CONTAINER: jupyterlab_img
-      DOCKER_NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
-      HUB_IP: jupyterhub
+      DOCKER_NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_jupyter
+      HUB_IP: jupyterhub_hub
+    networks:
+      default:
+      jupyter:
+        aliases:
+          - jupyterhub_hub
     labels:
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:jupyter.ens.uvsq.fr"
+      - "traefik.frontend.rule=Host:sage.prism.uvsq.fr"
     restart: on-failure
 
   jupyterlab:
@@ -28,12 +33,10 @@ services:
     image: traefik
     container_name: reverse-proxy
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+      - "8000:80"
+      - "8001:8080"
     volumes:
       - ./reverse-proxy/traefik.toml:/etc/traefik/traefik.toml
-      - /etc/certs:/etc/certs
       - /var/run/docker.sock:/var/run/docker.sock
     restart: on-failure
 
@@ -44,8 +47,12 @@ services:
       - ./oauth2/config.js:/home/node/config.js
     labels:
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:jupyter.ens.uvsq.fr;PathPrefixStrip:/c2o2b/"
+      - "traefik.frontend.rule=Host:sage.prism.uvsq.fr;PathPrefixStrip:/c2o2b/"
     restart: on-failure
 
 volumes:
   jupyterhub_data:
+
+networks:
+  jupyter:
+    internal: true

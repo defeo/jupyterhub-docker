@@ -1,19 +1,11 @@
 debug = true
 
 logLevel = "ERROR"
-defaultEntryPoints = ["https","http"]
+defaultEntryPoints = ["http"]
 
 [entryPoints]
   [entryPoints.http]
   address = ":80"
-    [entryPoints.http.redirect]
-    entryPoint = "https"
-  [entryPoints.https]
-  address = ":443"
-    [entryPoints.https.tls]
-      [[entryPoints.https.tls.certificates]]
-      certFile = "/etc/certs/jupyter_ens_uvsq_fr.crt"
-      keyFile = "/etc/certs/jupyter.ens.uvsq.fr.key"
 
 [docker]
 domain = "docker.local"

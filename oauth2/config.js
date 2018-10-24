@@ -1,6 +1,6 @@
 module.exports = {
     // The URL where the OAuth2 server will respond
-    appURL: "https://jupyter.ens.uvsq.fr/c2o2b",
+    appURL: "https://sage.prism.uvsq.fr/c2o2b",
     // The port to bind to
     port: process.env.PORT,
 
@@ -34,7 +34,7 @@ module.exports = {
 	clients: {
 	    "0": {
 		secret: null,
-		redirectUri: new RegExp('^https://jupyter\\.ens\\.uvsq\\.fr/'),
+		redirectUri: new RegExp('^https://sage\\.prism\\.uvsq\\.fr/'),
 	    },
 	},
     },
