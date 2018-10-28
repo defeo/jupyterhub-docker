@@ -19,13 +19,14 @@ services:
           - jupyterhub_hub
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=${COMPOSE_PROJECT_NAME}_default"
       - "traefik.frontend.rule=Host:sage.prism.uvsq.fr"
     restart: on-failure
 
   jupyterlab:
     build: jupyterlab
     image: jupyterlab_img
-    container_name: jupyterlab-throaway
+    container_name: jupyterlab-throwaway
     network_mode: none
     command: echo
 

@@ -1,6 +1,6 @@
 debug = true
 
-logLevel = "ERROR"
+logLevel = "WARNING"
 defaultEntryPoints = ["http"]
 
 [entryPoints]
