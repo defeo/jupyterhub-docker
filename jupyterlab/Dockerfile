@@ -12,6 +12,10 @@ RUN apt-get update && \
     gfortran \
     gcc \
     scilab \
+    pari-gp \
+    libpari-dev \
+    sagemath \
+    sagemath-jupyter \
     libgmp-dev \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -41,7 +45,7 @@ RUN conda install --quiet --yes \
     'r-htmlwidgets=1.0*' \
     'r-hexbin=1.27*' \
     'jupyterhub' \
-    'sage=8.*' \
+#    'sage=8.*' \
     'julia=1.0*' && \
     conda clean -tipsy && \
     fix-permissions $CONDA_DIR
@@ -53,6 +57,11 @@ RUN pip install \
 #    PySingular jupyter_kernel_singular \
     scilab-kernel && \
     fix-permissions $CONDA_DIR
+
+# Fix SageMath kernel
+USER root
+RUN sed -i 's/"\/usr\/bin\/sage"/"env", "PATH=\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin", "\/usr\/bin\/sage"/' /usr/share/jupyter/kernels/sagemath/kernel.json
+USER $NB_UID
 
 # Add conda env hook
 COPY ./conda-activate.sh /usr/local/bin/before-notebook.d/
