@@ -41,16 +41,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: on-failure
 
-  oauth2_server:
-    image: defeo/cas2oauth2bridge
-    container_name: c2o2b
-    volumes:
-      - ./oauth2/config.js:/home/node/config.js
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:sage.prism.uvsq.fr;PathPrefixStrip:/c2o2b/"
-    restart: on-failure
-
 volumes:
   jupyterhub_data:
 
