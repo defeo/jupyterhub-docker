@@ -3,27 +3,18 @@ c.JupyterHub.admin_access = True
 c.Spawner.default_url = '/lab'
 
 ## Authenticator
-from oauthenticator.oauth2 import OAuthLoginHandler
-from oauthenticator.generic import GenericOAuthenticator
-from tornado.auth import OAuth2Mixin
+from jhub_cas_authenticator.cas_auth import CASAuthenticator
+c.JupyterHub.authenticator_class = CASAuthenticator
 
-class UVSQMixin(OAuth2Mixin):
-    _OAUTH_AUTHORIZE_URL = 'https://jupyter.ens.uvsq.fr/c2o2b/login'
-    _OAUTH_ACCESS_TOKEN_URL = 'https://jupyter.ens.uvsq.fr/c2o2b/token'
+# The CAS URLs to redirect (un)authenticated users to.
+c.CASAuthenticator.cas_login_url = 'https://cas.uvsq.fr/login'
+c.CASLocalAuthenticator.cas_logout_url = 'https://cas.uvsq/logout'
 
-class UVSQLoginHandler(OAuthLoginHandler, UVSQMixin):
-    pass
+# The CAS endpoint for validating service tickets.
+c.CASAuthenticator.cas_service_validate_url = 'https://cas.uvsq.fr/serviceValidate'
 
-class UVSQAuthenticator(GenericOAuthenticator):
-    login_service = 'UVSQ'
-    login_handler = UVSQLoginHandler
-    client_id = '0'
-    client_secret = ''
-    userdata_url = 'https://jupyter.ens.uvsq.fr/c2o2b/userdata'
-    token_url = 'https://jupyter.ens.uvsq.fr/c2o2b/token'
-    oauth_callback_url = 'https://jupyter.ens.uvsq.fr/hub/oauth_callback'
-
-c.JupyterHub.authenticator_class = UVSQAuthenticator
+# The service URL the CAS server will redirect the browser back to on successful authentication.
+c.CASAuthenticator.cas_service_url = 'https://sage.prism.uvsq.fr/hub/login'
 
 c.Authenticator.admin_users = { 'lucadefe' }
 
