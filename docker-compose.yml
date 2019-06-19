@@ -9,12 +9,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - jupyterhub_data:/srv/jupyterhub
     environment:
-      DOCKER_JUPYTER_CONTAINER: jupyterlab_img
-      DOCKER_NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
-      HUB_IP: jupyterhub
+      - DOCKER_JUPYTER_CONTAINER=jupyterlab_img
+      - DOCKER_NETWORK_NAME=${COMPOSE_PROJECT_NAME}_default
+      - HUB_IP=jupyterhub
+      - HOST
     labels:
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:jupyter.ens.uvsq.fr"
+      - "traefik.frontend.rule=Host:${HOST}"
     restart: on-failure
 
   jupyterlab:

@@ -14,7 +14,7 @@ c.CASLocalAuthenticator.cas_logout_url = 'https://cas.uvsq/logout'
 c.CASAuthenticator.cas_service_validate_url = 'https://cas.uvsq.fr/serviceValidate'
 
 # The service URL the CAS server will redirect the browser back to on successful authentication.
-c.CASAuthenticator.cas_service_url = 'https://sage.prism.uvsq.fr/hub/login'
+c.CASAuthenticator.cas_service_url = 'https://%s/hub/login' % os.environ['HOST']
 
 c.Authenticator.admin_users = { 'lucadefe' }
 
