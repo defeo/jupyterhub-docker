@@ -1,3 +1,5 @@
+import os
+
 ## Generic
 c.JupyterHub.admin_access = True
 c.Spawner.default_url = '/lab'
@@ -20,8 +22,6 @@ c.Authenticator.admin_users = { 'lucadefe' }
 
 
 ## Docker spawner
-import os
-
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
 c.DockerSpawner.image = os.environ['DOCKER_JUPYTER_CONTAINER']
 c.DockerSpawner.network_name = os.environ['DOCKER_NETWORK_NAME']
