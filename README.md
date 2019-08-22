@@ -61,4 +61,5 @@ learn how to manage your application.
 
 ## Acknowledgements
 
-Work partially funded by [OpenDreamKit](https://opendreamkit.org/).
+<img src="https://opendreamkit.org/public/logos/Flag_of_Europe.svg" height="20"> Work partially funded by the EU H2020 project
+[OpenDreamKit](https://opendreamkit.org/).
